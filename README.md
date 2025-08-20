@@ -33,3 +33,28 @@ Unified memory is managed memory to bridge between device and host.
 
 Threads are asynchronous.
 Threads that trigger an async operation does not need to be the thread which collects the operation.
+
+#### Memory
+
+Device memory can be allocated either as linear memory or as CUDA arrays.
+* Linear memory is 1-dimensional block of addresses
+* CUDA arrays are multi-dimensional
+
+Variables need to be copied from host memory to device memory.
+
+L2 cache can be used for persistent memory.
+
+`hitRatio` can be used to reduce the amount of the access window stored in the L2 cache.
+
+Types of global memory access:
+* cudaAccessPropertyStreaming (not likely to persist in L2 cache)
+* cudaAccessPropertyPersisting (likely to persist in L2 cache)
+* cudaAccessPropertyNormal (removes persisting status of previous memory)
+
+
+Shared memory is faster than global memory.
+
+Page-locked (pinned) host memory advantages (versus regular pageable host memory):
+* copies from host to device can be concurrent with kernel execution
+* can be mapped directly to device address, eliminating copy
+* bandwidth is higher
