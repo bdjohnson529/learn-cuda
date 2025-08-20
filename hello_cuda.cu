@@ -30,12 +30,12 @@ int main() {
     
     float *d_a, *d_b, *d_c;
     
-    // Allocate GPU memory
+    // Allocate global memory
     cudaMalloc(&d_a, N * sizeof(float));
     cudaMalloc(&d_b, N * sizeof(float));
     cudaMalloc(&d_c, N * sizeof(float));
     
-    // Copy data to GPU
+    // Copy memory to device
     cudaMemcpy(d_a, h_a, N * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, h_b, N * sizeof(float), cudaMemcpyHostToDevice);
     

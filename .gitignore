@@ -1,3 +1,8 @@
+# IDE
 .vscode
 
+# Secrets
 keys
+
+# Compiled programs
+hello_cuda

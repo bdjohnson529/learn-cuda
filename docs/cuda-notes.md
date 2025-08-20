@@ -16,6 +16,19 @@ Block memory - shared by all threads in a block
 Distributed shared memory - shared by all thread blocks in a cluster
 Global memory - shared by all kernels
 
+Global memory is allocated usin `cudaMalloc()`, for example
+```
+cudaMalloc(&d_a, N * sizeof(float));
+```
+
+Memory can then be copied from the host to device
+```
+cudaMemcpy(d_a, h_a, N * sizeof(float), cudaMemcpyHostToDevice);
+```
+
+#### Kernels
+
+Kernels are C++ functions which are executed by threads, in parallel.
 
 #### Heterogenous Programming
 
