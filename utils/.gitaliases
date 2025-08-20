@@ -1,0 +1,17 @@
+# Add these aliases by sourcing the file, eg
+# source .gitaliases
+
+
+alias gb="git branch"
+alias gc="git commit -m"
+alias gca="git commit -am"  # stages and commits
+alias gco="git checkout"
+alias gs="git status"
+alias ga="git add"
+alias gp="git push origin HEAD"
+alias gl="git pull"
+alias glo="git pull origin HEAD"
+
+
+git config --global user.email "bdjohnson529@gmail.com"
+git config --global user.name "Ben Johnson"
