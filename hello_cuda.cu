@@ -1,3 +1,17 @@
+/*------------------
+Simple CUDA Example
+prints hello from threads and performs vector addition on the GPU.
+Demonstrates kernel launch and device/host memory management.
+
+Two kernels:
+* hello_kernel: prints thread/block info from the GPU.
+* vector_add: adds two float arrays on the GPU.
+
+Usage:
+* Compile: nvcc hello_cuda.cu -o hello_cuda
+* Run: ./hello_cuda
+---------------------*/
+
 #include <stdio.h>
 #include <cuda_runtime.h>
 
