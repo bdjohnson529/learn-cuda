@@ -4,8 +4,8 @@ from torch.utils.cpp_extension import load
 # JIT compile
 ext = load(name="welford_test_ext",
             sources=["binding.cpp", "welfords.cu"],
-            extra_cflags=["03"],
-            extra_cuda_cflags=["03", "--use_fast_math"],
+            extra_cflags=["-O3"],
+            extra_cuda_cflags=["-O3", "--use_fast_math"],
             verbose=False)
 
 M, H = 1024, 4096

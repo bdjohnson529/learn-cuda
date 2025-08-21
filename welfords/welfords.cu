@@ -127,7 +127,7 @@ std::vector<torch::Tensor> welford_test_cuda(torch::Tensor x) {
     const dim3 block(threads);
     const dim3 grid(M);
 
-    at::cuda::CUDAGuard device_guard(x.device());
+    // at::cuda::OptionalCUDAGuard device_guard(x.device());
     cudaStream_t stream = at::cuda::getCurrentCUDAStream();
 
     AT_DISPATCH_FLOATING_TYPES_AND_HALF(x.scalar_type(), "welford_test_cuda", [&] {
@@ -136,7 +136,7 @@ std::vector<torch::Tensor> welford_test_cuda(torch::Tensor x) {
             mean.data_ptr<float>(),
             var.data_ptr<float>(),
             (int)H
-        )
+        );
     });
 
     return {mean, var};
