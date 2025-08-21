@@ -2,6 +2,8 @@
 #include <ATen/cuda/CUDAContext.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
+#include <iostream>
+#include <cstdio>
 
 
 /*-----------------------
@@ -91,11 +93,22 @@ __global__ void welford_test_kernel(
     if (warp_id == 0) {
         WelfordData acc = welford_init();
         int num_warps = blockDim.x / warpSize_;
+
         if (lane < num_warps) acc = smem[lane];
+
+
+        // Serial reduction across valid lanes
+        for (int i = 1; i < num_warps; ++i) {
+            if (lane == 0) acc = welford_combine(acc, smem[i]);
+        }
+        if (lane == 0) total = acc;
+
+        /*
         for (int offset = warpSize_ / 2; offset > 0; offset /= 2) {
             acc = welford_shfl_down(acc, offset);
         }
         if (lane == 0) total = acc;
+        */
     }
 
     // load into shared memroy
@@ -120,6 +133,12 @@ std::vector<torch::Tensor> welford_test_cuda(torch::Tensor x) {
     int64_t M = x.numel() / H;
     auto x2d = x.view({M,H});
 
+    /*
+    std::cout << "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << std::endl;
+    std::cout << "H = " << H << std::endl;
+    std::cout << "M = " << M << std::endl;
+    */
+
     auto mean = torch::empty({M}, x.options().dtype(torch::kFloat));
     auto var = torch::empty({M}, x.options().dtype(torch::kFloat));
 
@@ -138,6 +157,10 @@ std::vector<torch::Tensor> welford_test_cuda(torch::Tensor x) {
             (int)H
         );
     });
+
+    //std::cout << "**************************" << std::endl;
+    //std::cout << mean << std::endl;
+    //std::cout << var << std::endl;
 
     return {mean, var};
 
