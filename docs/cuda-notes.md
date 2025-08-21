@@ -61,7 +61,7 @@ Types of global memory access:
 * cudaAccessPropertyNormal (removes persisting status of previous memory)
 
 
-Shared memory is faster than global memory.
+Shared memory is faster than global memory because it is on chip. Shared memory is allocated per thread block, so all threads in the block have access to the same memory. Declare shared memory using `__shared__`.
 
 Page-locked (pinned) host memory advantages (versus regular pageable host memory):
 * copies from host to device can be concurrent with kernel execution
